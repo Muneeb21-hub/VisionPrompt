@@ -2,6 +2,8 @@ import av
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, WebRtcMode
 from yolo_predictions import YOLO_Pred
+import socket
+import cv2
 
 st.set_page_config(
     page_title="Real-Time YOLO Detection",
@@ -36,6 +38,16 @@ class YOLOVideoProcessor(VideoProcessorBase):
         return av.VideoFrame.from_ndarray(processed_img, format="bgr24")
 
 
+def is_online():
+    try:
+        # Try to connect to Google's DNS
+        socket.create_connection(("8.8.8.8", 53), timeout=2)
+        return True
+    except OSError:
+        return False
+
+
+ONLINE = is_online()
 
 st.title("Real-time Object Detection with YOLOv8")
 
@@ -51,21 +63,45 @@ with st.sidebar:
     )
 
 # webRTC component
-ctx = webrtc_streamer(
-    key="yolo-live-detection",
-    mode=WebRtcMode.SENDRECV,
-    video_processor_factory=YOLOVideoProcessor,
-    rtc_configuration={
-        "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
-    },
-    media_stream_constraints={
-        "video": True,
-        "audio": False
-    },
-    async_processing=True,
-)
-
-# updating confidence threshold
-if ctx.video_processor:
-    ctx.video_processor.set_confidence(confidence_threshold)
+if ONLINE:
+    st.success("Online mode: Using WebRTC for live detection.")
+    ctx = webrtc_streamer(
+        key="yolo-live-detection",
+        mode=WebRtcMode.SENDRECV,
+        video_processor_factory=YOLOVideoProcessor,
+        rtc_configuration={
+            "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+        },
+        media_stream_constraints={
+            "video": True,
+            "audio": False
+        },
+        async_processing=True,
+    )
+    # updating confidence threshold
+    if ctx.video_processor:
+        ctx.video_processor.set_confidence(confidence_threshold)
+else:
+    st.warning("Offline mode: Using OpenCV for webcam access.")
+    model = YOLO_Pred(
+        onnx_model='models/best_model.onnx',
+        data_yaml='models/data.yaml'
+    )
+    model.confidence = confidence_threshold
+    run = st.button("Start Webcam Detection")
+    frame_placeholder = st.empty()
+    if run:
+        cap = cv2.VideoCapture(0)
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                st.error("Failed to grab frame from webcam.")
+                break
+            model.confidence = confidence_threshold
+            processed_img = model.predictions(frame)
+            frame_placeholder.image(processed_img, channels="BGR")
+            if st.button("Stop", key="stop_btn"):
+                break
+        cap.release()
+        frame_placeholder.empty()
 

@@ -12,14 +12,14 @@ import streamlit as st
 
 
 st.set_page_config(
-    page_title="YOLO V8 Prompt-based Object Detection App",
+    page_title="PromptVision: YOLOv8-Powered Smart Object Detection App",
     layout="wide",
     page_icon = '🧠'
     # page_icon='./images/home.png'
 )
 
 
-st.title("YOLO Prompt-based Object Detection App")
+st.title("PromptVision: YOLOv8-Powered Smart Object Detection App")
 st.caption("Custom and real-time object detection"
            )
 
@@ -27,7 +27,7 @@ st.caption("Custom and real-time object detection"
 st.markdown("""
 ---
 
-### Welcome to the YOLO V8 Prompt-based Custom Object Detection App
+### Welcome to the PromptVision: YOLOv8-Powered Smart Object Detection App
 
 This web app uses  YOLO V8 pre-trained model for transfer learning on 20 different  objects, supported by a prompt to detect custom classes. You can also play a live video for real-time object detection . 
 
