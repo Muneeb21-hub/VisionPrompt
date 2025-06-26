@@ -51,7 +51,7 @@ st.markdown('''
 with st.sidebar:
     st.image("./images/home.png", width=80)
     st.markdown("<h4 style='color:#1746A2;'>PromptVision Home</h4>", unsafe_allow_html=True)
-    st.write("Welcome to the YOLOv8-powered smart object detection app.")
+    st.write("Welcome to the YOLOv8-powered smart object detection.")
     st.markdown("---")
     st.markdown("<small>Developed by Team VisionPrompt</small>", unsafe_allow_html=True)
     st.markdown("<small>Navigate to Vision or Live Processing using the menu below.</small>", unsafe_allow_html=True)
@@ -65,7 +65,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="custom-title">🧠 PromptVision: YOLOv8-Powered Smart Object Detection App</div>', unsafe_allow_html=True)
+st.markdown('<div class="custom-title">🧠 PromptVision: YOLOv8-Powered Smart Object Detection</div>', unsafe_allow_html=True)
 st.markdown('<div class="custom-desc">Detect objects in images, videos, or live streams with a modern, easy-to-use interface.</div>', unsafe_allow_html=True)
 
 main_tabs = st.tabs(["Home", "How to Use", "About"])
@@ -124,7 +124,7 @@ elif page == "Live Processing":
 st.markdown("""
 ---
 
-**Reference Repo**: [YOLO Prompt-based Customized App](https://github.com/amerob/yolo-prompt-based-detection-app)
+**Reference Repo**: [YOLO Prompt-based Customized App](https://github.com/Muneeb21-hub/VisionPrompt)
 
 """)
 
