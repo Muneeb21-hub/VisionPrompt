@@ -12,58 +12,100 @@ import streamlit as st
 
 
 st.set_page_config(
-    page_title="PromptVision: YOLOv8-Powered Smart Object Detection App",
+    page_title="PromptVision: YOLOv8-Powered Smart Object Detection",
     layout="wide",
     page_icon = '🧠'
     # page_icon='./images/home.png'
 )
 
 
-st.title("PromptVision: YOLOv8-Powered Smart Object Detection App")
-st.caption("Custom and real-time object detection"
-           )
+# Custom CSS for modern look
+st.markdown('''
+    <style>
+    .main {
+        background-color: #f5f7fa;
+    }
+    .stButton>button {
+        background-color: #4F8BF9;
+        color: white;
+        border-radius: 8px;
+        padding: 0.5em 2em;
+        font-weight: bold;
+        border: none;
+        margin: 0.5em 0;
+    }
+    .stButton>button:hover {
+        background-color: #1746A2;
+        color: #fff;
+    }
+    .stSidebar {
+        background-color: #e3e9f7;
+    }
+    .stSlider>div>div {
+        background: #4F8BF9;
+    }
+    </style>
+''', unsafe_allow_html=True)
 
+# Sidebar logo and description
+with st.sidebar:
+    st.image("./images/home.png", width=80)
+    st.markdown("<h4 style='color:#1746A2;'>PromptVision Home</h4>", unsafe_allow_html=True)
+    st.write("Welcome to the YOLOv8-powered smart object detection app.")
+    st.markdown("---")
+    st.markdown("<small>Developed by Team VisionPrompt</small>", unsafe_allow_html=True)
+    st.markdown("<small>Navigate to Vision or Live Processing using the menu below.</small>", unsafe_allow_html=True)
 
-st.markdown("""
----
-
-### Welcome to the PromptVision: YOLOv8-Powered Smart Object Detection App
-
-This web app uses  YOLO V8 pre-trained model for transfer learning on 20 different  objects, supported by a prompt to detect custom classes. You can also play a live video for real-time object detection . 
-
-- **Custom Class Selection:** Choose the classes you want to detect using the prompt for focused object detection.
-- **Adjustable Thresholds:** 
-  1. **Confidence Threshold:** Adjust the confidence level to control the balance between precision and recall.
-  2. **Class Score Threshold:** The minimum class probability required for detection.
-- **Real-Time Object Detection:** Process live video streams using the above adjustable parameters.
-
-
-""")
-
-
-
+# Enhanced UI/UX: Add tabs, better layout, and more guidance
 st.markdown("""
     <style>
-        .stPageLink {
-            display: block;
-            font-size: 18px;
-            font-weight: 600;
-            color: #2E7D32;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            background-color: #E4ECF2;
-            transition: all 0.3s ease;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .stPageLink:hover {
-            background-color: #E4ECF2;
-            color: #1B5E20;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
+    .custom-title { font-size: 2.5em; font-weight: bold; color: #1746A2; margin-bottom: 0.2em; }
+    .custom-desc { font-size: 1.2em; color: #333; margin-bottom: 1em; }
+    .custom-section { background: #fff; border-radius: 12px; padding: 1.5em; box-shadow: 0 2px 8px rgba(0,0,0,0.07); margin-bottom: 1.5em; }
     </style>
 """, unsafe_allow_html=True)
+
+st.markdown('<div class="custom-title">🧠 PromptVision: YOLOv8-Powered Smart Object Detection App</div>', unsafe_allow_html=True)
+st.markdown('<div class="custom-desc">Detect objects in images, videos, or live streams with a modern, easy-to-use interface.</div>', unsafe_allow_html=True)
+
+main_tabs = st.tabs(["Home", "How to Use", "About"])
+
+with main_tabs[0]:
+    st.markdown('<div class="custom-section">', unsafe_allow_html=True)
+    st.caption("Custom and real-time object detection")
+    st.markdown("""
+    ---
+    ### Welcome to the PromptVision: YOLOv8-Powered Smart Object Detection
+    This web app uses YOLO V8 pre-trained model for transfer learning on 20 different objects, supported by a prompt to detect custom classes. You can also play a live video for real-time object detection.
+    - **Custom Class Selection:** Choose the classes you want to detect using the prompt for focused object detection.
+    - **Adjustable Thresholds:** 
+      1. **Confidence Threshold:** Adjust the confidence level to control the balance between precision and recall.
+      2. **Class Score Threshold:** The minimum class probability required for detection.
+    - **Real-Time Object Detection:** Process live video streams using the above adjustable parameters.
+    """)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+with main_tabs[1]:
+    st.markdown('<div class="custom-section">', unsafe_allow_html=True)
+    st.header("How to Use")
+    st.markdown("""
+    1. **Navigate** to Vision or Live Processing using the sidebar.
+    2. **Upload images/videos** or use your webcam for detection.
+    3. **Adjust thresholds** and settings in the sidebar.
+    4. **View results** in real time.
+    """)
+    st.info("For best results, ensure good lighting and a clear camera view.")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+with main_tabs[2]:
+    st.markdown('<div class="custom-section">', unsafe_allow_html=True)
+    st.header("About")
+    st.write("""
+    This app demonstrates real-time object detection using YOLOv8 and Streamlit. It supports both online (WebRTC) and offline (OpenCV) webcam access, with a modern, user-friendly interface.
+    
+    **Developed by Team VisionPrompt**
+    """)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # Replace page links with a selectbox for navigation
 page = st.sidebar.selectbox(

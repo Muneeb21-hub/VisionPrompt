@@ -14,7 +14,44 @@ st.set_page_config(
     page_icon="👁️"
 )
 
+# Custom CSS for modern look (remove blue background from sliders)
+st.markdown('''
+    <style>
+    .main {
+        background-color: #f5f7fa;
+    }
+    .stButton>button {
+        background-color: #4F8BF9;
+        color: white;
+        border-radius: 8px;
+        padding: 0.5em 2em;
+        font-weight: bold;
+        border: none;
+        margin: 0.5em 0;
+    }
+    .stButton>button:hover {
+        background-color: #1746A2;
+        color: #fff;
+    }
+    .stSidebar {
+        background-color: #e3e9f7;
+    }
+    /* Remove blue background from sliders */
+    .stSlider>div>div {
+        background: transparent !important;
+    }
+    .custom-title { font-size: 2.5em; font-weight: bold; color: #1746A2; margin-bottom: 0.2em; }
+    .custom-desc { font-size: 1.2em; color: #333; margin-bottom: 1em; }
+    .custom-section { background: #fff; border-radius: 12px; padding: 1.5em; box-shadow: 0 2px 8px rgba(0,0,0,0.07); margin-bottom: 1.5em; }
+    </style>
+''', unsafe_allow_html=True)
+
+# Sidebar logo and description
 with st.sidebar:
+    st.image("./images/home.png", width=80)
+    st.markdown("<h4 style='color:#1746A2;'>YOLO Vision App</h4>", unsafe_allow_html=True)
+    st.write("Detect objects in images and videos using YOLOv8.")
+    st.markdown("---")
     st.header("Threshold Settings")
     confidence = st.slider(
         "Confidence Threshold",
@@ -30,6 +67,8 @@ with st.sidebar:
         value=0.25,
         step=0.01
     )
+    st.markdown("---")
+    st.markdown("<small>Developed by Team VisionPrompt</small>", unsafe_allow_html=True)
 
 with st.spinner("Loading the YOLO model, please wait..."):
     yolo = YOLO_Pred(
@@ -141,9 +180,22 @@ def process_video(uploaded_file, selected_classes, yolo, confidence, class_score
         return None
 
 
-def main():
-    st.title("YOLO Vision")
+# Enhanced UI/UX: Add tabs, better layout, and more guidance
+st.markdown("""
+    <style>
+    .custom-title { font-size: 2.5em; font-weight: bold; color: #1746A2; margin-bottom: 0.2em; }
+    .custom-desc { font-size: 1.2em; color: #333; margin-bottom: 1em; }
+    .custom-section { background: #fff; border-radius: 12px; padding: 1.5em; box-shadow: 0 2px 8px rgba(0,0,0,0.07); margin-bottom: 1.5em; }
+    </style>
+""", unsafe_allow_html=True)
 
+st.markdown('<div class="custom-title">👁️ YOLO Vision</div>', unsafe_allow_html=True)
+st.markdown('<div class="custom-desc">Upload an image or video, or capture from your camera to detect objects in real time. Adjust settings and enjoy a modern experience.</div>', unsafe_allow_html=True)
+
+main_tabs = st.tabs(["Vision Detection", "How to Use", "About"])
+
+with main_tabs[0]:
+    st.markdown('<div class="custom-section">', unsafe_allow_html=True)
     # choose the source type
     source_option = st.radio(
         "Select Image/Video Source:",
@@ -160,7 +212,7 @@ def main():
         file_obj = input_data["file"]
         details = input_data["details"]
 
-        col1, col2 = st.columns(2)
+        col1, col2 = st.columns([2, 1])
 
         with col1:
             st.info("Input Preview")
@@ -173,28 +225,51 @@ def main():
         with col2:
             st.subheader("File Details")
             st.json(details)
-            # class selection
-            selected_classes = st.multiselect("Select classes to detect:", classes, default=classes)
-            button = st.button("Run YOLO Detection")
+            with st.expander("Advanced Settings", expanded=False):
+                st.write("You can adjust detection thresholds and select classes to detect.")
+                selected_classes = st.multiselect("Select classes to detect:", classes, default=classes, help="Choose which object classes to detect.")
+                button = st.button("Run YOLO Detection", help="Click to start object detection.")
 
         if button:
             with st.spinner("Detecting objects, please wait..."):
                 if file_type == "image":
                     image_obj = Image.open(file_obj)
                     image_array = np.array(image_obj)
-                    # update thresholds
                     yolo.confidence = confidence
                     yolo.class_score = class_score
                     pred_img = yolo.predictions(image_array, classes_to_detect=selected_classes)
                     pred_img_obj = Image.fromarray(pred_img)
                     st.subheader("Detected Objects in Image")
                     st.image(pred_img_obj)
+                    st.success("Detection complete!")
+                    st.balloons()
                 elif file_type == "video":
                     output_path = process_video(file_obj, selected_classes, yolo, confidence, class_score)
                     if output_path:
                         st.subheader("Detected Objects in Video")
                         st.video(output_path)
+                        st.success("Detection complete!")
+                        st.balloons()
+    st.markdown('</div>', unsafe_allow_html=True)
 
+with main_tabs[1]:
+    st.markdown('<div class="custom-section">', unsafe_allow_html=True)
+    st.header("How to Use")
+    st.markdown("""
+    1. **Upload** an image or video, or capture from your camera.
+    2. **Adjust thresholds** and select classes in the sidebar or advanced settings.
+    3. **Run detection** and view results instantly.
+    4. **Download or review** your results as needed.
+    """)
+    st.info("For best results, use high-quality images or videos with clear objects.")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-if __name__ == "__main__":
-    main()
+with main_tabs[2]:
+    st.markdown('<div class="custom-section">', unsafe_allow_html=True)
+    st.header("About")
+    st.write("""
+    This page allows you to detect objects in images and videos using YOLOv8. Upload files or use your camera, adjust settings, and see results in a modern, user-friendly interface.
+    
+    **Developed by Team VisionPrompt**
+    """)
+    st.markdown('</div>', unsafe_allow_html=True)

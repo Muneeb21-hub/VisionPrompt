@@ -134,4 +134,29 @@ In this project, the ONNX model file is loaded in Python for real-time object de
 
 ---
 
+## Benefits of Live Detection Using WebRTC and Offline Mode
+
+### Live Detection with WebRTC (Online Mode)
+- **Low Latency & Real-Time Processing:** WebRTC is designed for real-time communication, enabling smooth, low-latency video streaming and instant object detection feedback.
+- **Browser Integration:** WebRTC works directly in the browser, so users don’t need to install extra software or drivers.
+- **Cross-Platform Compatibility:** Works on Windows, macOS, Linux, and even mobile browsers.
+- **Async Processing:** Streamlit’s WebRTC integration allows for asynchronous frame processing, keeping the UI responsive.
+- **Security:** WebRTC uses secure protocols, and access to the webcam is managed by the browser, protecting user privacy.
+
+### Offline Detection with OpenCV (Offline Mode)
+- **No Internet Required:** Users can run detection even without an internet connection, making the app robust in all environments.
+- **Direct Hardware Access:** OpenCV accesses the webcam directly, which can sometimes offer better performance or compatibility on certain systems.
+- **Privacy:** All processing happens locally, and no video data leaves the user’s device.
+
+### Why Not Use Only Offline Functionality?
+- **User Experience:** WebRTC provides a seamless, browser-based experience without requiring users to install additional libraries or handle hardware permissions manually.
+- **Compatibility:** Some environments (e.g., cloud deployments, shared computers) may restrict direct hardware access, making OpenCV less reliable.
+- **Streamlit Integration:** Streamlit’s WebRTC component is designed for web apps, making it easier to build interactive, real-time applications.
+
+### Why Support Both?
+- **Robustness:** By supporting both modes, the app works everywhere—online or offline, with or without browser support for WebRTC.
+- **Fallback:** If WebRTC fails (e.g., due to network issues), users can still use the app offline.
+
+---
+
 For further details, see the project documentation and code comments.

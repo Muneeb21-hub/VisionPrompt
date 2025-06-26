@@ -4,7 +4,7 @@ This project was developed by a team of four members. Below is a detailed breakd
 
 ---
 
-## Member 1: Model Integration & Backend Development
+## Muneeb ur Rehman (23BSCS11): Model Integration & Backend Development
 - Researched and selected the YOLOv8 ONNX model suitable for real-time object detection.
 - Converted and optimized the model for ONNX runtime, ensuring efficient inference on various hardware.
 - Developed the `yolo_predictions.py` module, implementing preprocessing, postprocessing, and custom confidence threshold logic.
@@ -14,7 +14,7 @@ This project was developed by a team of four members. Below is a detailed breakd
 
 ---
 
-## Member 2: Streamlit App & UI/UX Design
+## Ayesha Naseer (23BSCS07): Streamlit App & UI/UX Design
 - Designed the overall user interface, focusing on clarity, accessibility, and responsiveness.
 - Implemented multi-page navigation using Streamlit’s page system, including the home, about, and detection pages.
 - Developed sidebar controls for real-time parameter adjustment (e.g., confidence threshold slider) and contextual help.
@@ -24,7 +24,7 @@ This project was developed by a team of four members. Below is a detailed breakd
 
 ---
 
-## Member 3: Real-Time Video Processing & WebRTC Integration
+## Amina (22BSCS50): Real-Time Video Processing & WebRTC Integration
 - Integrated `streamlit-webrtc` for live webcam streaming, configuring ICE servers and handling network issues.
 - Developed the `YOLOVideoProcessor` class, optimizing frame-by-frame detection for low latency.
 - Implemented dynamic confidence threshold updates, allowing real-time tuning during detection sessions.
@@ -34,7 +34,7 @@ This project was developed by a team of four members. Below is a detailed breakd
 
 ---
 
-## Member 4: Documentation, Testing & Deployment
+## Zulkeha (23BSCS37): Documentation, Testing & Deployment
 - Authored comprehensive documentation, including `README.md`, usage guides, and project presentation materials.
 - Developed and executed test cases for all major features, including live detection, offline mode, and UI controls.
 - Automated environment setup with `requirements.txt` and Dockerfile for reproducible deployment.
